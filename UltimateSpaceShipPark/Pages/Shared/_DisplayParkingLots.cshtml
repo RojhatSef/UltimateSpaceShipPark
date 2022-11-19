@@ -2,21 +2,24 @@
 @{
 
     var showButtons = (bool)ViewData["ShowButtons"];
-
+  
 
 }
 <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
     <div class="card-header">
-        <h3>Parking Slot: @Model.parkingLotNumber</h3>
-        <h3>Parking Level: @Model.parkingLotLevel</h3>
         @if (@Model.SpaceShipID == null)
         {
+            <i class="bi bi-p-square-fill" style="font-size: 4rem"></i>
             <h2>Open parking Spot</h2>
         }
         else
         {
+            <i class="bi bi-rocket-takeoff" style="font-size: 4rem"></i>
             <h2>parking Spot is occupied</h2>
         }
+        <h3>Parking Slot: @Model.parkingLotNumber</h3>
+        <h3>Parking Level: @Model.parkingLotLevel</h3>
+
     </div>
 
 

@@ -2,6 +2,7 @@
 @model UltimateSpaceShipPark.Pages.TheParkingLot.IndexEntreModel
 @{
     ViewData["ShowButtons"] = true;
+   
 
 }
 
@@ -12,19 +13,25 @@
 
 <h1>Parking Spots</h1>
 
-
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-        <div class="card-body">
-                             <div class="card-deck">
-            @foreach (var ParkingLotModel in Model.ParkingSpot)
-            {
-                <partial name="/Pages/Shared/_DisplayParkingLots.cshtml" model="ParkingLotModel" view-data="ViewData" />
-  
-            }
-                                      </div>
-                    </div>
-        </div>
+@foreach (var row in Model.ParkingSpot
+   .Select((item, index) => new { item, index })
+   .GroupBy(_ => _.index / 3, _ => _.item)
+)
+{
+    <div class="row">
+        @foreach (var item in row)
+        {
+            <div class="col">
+                <partial name="/Pages/Shared/_DisplayParkingLots.cshtml" model="item" view-data="ViewData" />
+            </div>
+        }
+        <!-- empty columns -->
+        @for (var i = 0; i < row.Count() % 3; i++)
+        {
+            <div class="col">
+                &nbsp;
+            </div>
+        }
     </div>
-</div>
+}
+@*

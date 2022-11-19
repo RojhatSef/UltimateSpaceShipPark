@@ -18,6 +18,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public string FormResult { get; set; }
         [TempData]
         public int formresult2 { get; set; }
+
+
         public IEnumerable<ParkingLotModel> ParkingSpot { get; set; }
         public IEnumerable<SpaceShipModel> spaceShipModels { get; set; }
         // search term was a function i wanted to implement, but it would probably be a future projekt. 
@@ -28,6 +30,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             this._spaceShipRepository = spaceShipRepository;
             this._context = context;
         }
+
         public void OnGet()
         {
             //getting our models for looping later. 
