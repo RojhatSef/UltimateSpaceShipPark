@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarModelService
 {
     public class SpaceShipModel
     {
+        // we don't want the spaceshipId to validate, as it can create error when parkingLot spaceId is being created or updated. 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int SpaceShipID { get; set; }
+        [ValidateNever]
+        public int? SpaceShipID { get; set; }
         [Required]
         public string RegisteringsNummer { get; set; }
 

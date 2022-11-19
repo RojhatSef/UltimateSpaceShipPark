@@ -1,0 +1,19 @@
+﻿@page
+@model UltimateSpaceShipPark.Pages.TheParkingLot.LeaveParkModel
+@{
+    ViewData["Title"] = "LeavingPark";
+    ViewData["ShowButtons"] = false;
+}
+
+<div class="alert">
+    
+    <h5>Thanks for staying with us - @Model.SpaceShipModels.RegisteringsNummer</h5>
+
+    <form method="post">
+        <input hidden asp-for="SpaceShipModels.SpaceShipID" />
+        <button type="submit" class="btn btn-outline-danger">
+            Confirm Leaving park
+        </button>
+
+    </form>
+</div>

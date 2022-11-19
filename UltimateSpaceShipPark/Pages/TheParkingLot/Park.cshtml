@@ -1,0 +1,55 @@
+﻿@page
+@model UltimateSpaceShipPark.Pages.TheParkingLot.ParkModel
+@{
+}
+
+
+<div class="input-group">
+    <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="mb-3">
+            <label class="form-label" asp-for="ParkLot.parkingLotLevel">ParkingLot Level @Model.ParkLot.parkingLotLevel</label>
+        </div>
+        <div class="mb-3"> <label class="form-label" asp-for="ParkLot.parkingLotNumber">ParkingLot Number  @Model.ParkLot.parkingLotNumber</label></div>
+
+
+
+    </div>
+</div>
+
+
+
+<div class="container mt-5">
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <form method="post" enctype="multipart/form-data">
+                <input hidden asp-for="ParkLot.SpaceParkingLotId" />
+
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="spaceShip.RegisteringsNummer">Registration Number</label>
+                    <input type="text" asp-for="spaceShip.RegisteringsNummer" class="form-control" />
+                    <span asp-validation-for="spaceShip.RegisteringsNummer" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+               
+                    <input hidden type="datetime" asp-for="EntryTime" class="form-control" />
+             
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="ExitTime">Leaving time</label>
+                    <input type="datetime" asp-for="ExitTime" class="form-control" />
+                    <span asp-validation-for="ExitTime" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-page="Index" class="btn btn-primary">Cancel</a>
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
