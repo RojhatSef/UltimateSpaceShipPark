@@ -7,12 +7,20 @@
 }
 
 <!-- Shows the search bar-->
+@if(Model.FormResult == null)
+{
+
+}else{
+    <div class="card m-3">
+        <div class="card-header">
+            <h4>@Model.FormResult</h4>
+        </div>
+    </div>
+}
 
 
-<h4>@Model.FormResult</h4>
-
-<h1>Parking Spots</h1>
-
+<h1>Space Parking Spots</h1>
+<!--To get our beautiful parking spots appearing next to each other we store the objects in another list, we then print our new list in three objects instead. Stackoverflow is a nice place-->
 @foreach (var row in Model.ParkingSpot
    .Select((item, index) => new { item, index })
    .GroupBy(_ => _.index / 3, _ => _.item)
@@ -34,4 +42,3 @@
         }
     </div>
 }
-@*

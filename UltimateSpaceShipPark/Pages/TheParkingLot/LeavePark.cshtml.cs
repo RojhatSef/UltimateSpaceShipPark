@@ -8,6 +8,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
     public class LeaveParkModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        // the plan at first was to use repositorys for all channels, but while coding, i noticed the projekt was much smaller than intended. 
         private readonly IParkingLotRepository parkingLotRepository;
         private readonly ISpaceShipRepository spaceShipRepository;
         public LeaveParkModel(IParkingLotRepository parkingLotRepository, ISpaceShipRepository spaceShipRepository, ApplicationDbContext context)
@@ -34,7 +35,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             if (id == null)
             {
                 return NotFound();
-            }
+            }// retrive spaceshipmodel id is only needed, we don't need the entire objekt. 
             SpaceShipModels = _context.SpaceShipModels.FirstOrDefault(n => n.SpaceShipID == id);
 
 
@@ -47,7 +48,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                 string output = null;
                 int todaldays = Convert.ToInt32(time.TotalDays);
                 output = string.Format("Days {0} Hours {1} Minutes {2} ", todaldays, time.Hours, time.Minutes);
-                FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(Payment) + "kr.  You Stayed with us for: " + output + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTime);
+                FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(Payment) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + output + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTime);
                 return Page();
             }
             return new RedirectToPageResult("/TheParkingLot/IndexEntre");
