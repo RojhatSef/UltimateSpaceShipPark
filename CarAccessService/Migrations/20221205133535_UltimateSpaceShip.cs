@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarAccessService.Migrations
 {
-    public partial class SpaceShipUlti : Migration
+    public partial class UltimateSpaceShip : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,9 +16,12 @@ namespace CarAccessService.Migrations
                     SpaceShipID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RegisteringsNummer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrentPrice = table.Column<double>(type: "float", nullable: true),
+                    TotalCost = table.Column<double>(type: "float", nullable: true),
                     ParkingLotNumber = table.Column<int>(type: "int", nullable: true),
                     EnterTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExitTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ExitTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExitTimeEarlierTimeWatcher = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,6 +36,7 @@ namespace CarAccessService.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     parkingLotLevel = table.Column<int>(type: "int", nullable: false),
                     parkingLotNumber = table.Column<int>(type: "int", nullable: false),
+                    Zone = table.Column<int>(type: "int", nullable: false),
                     SpaceShipID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

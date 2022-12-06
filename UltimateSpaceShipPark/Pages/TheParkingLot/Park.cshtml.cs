@@ -18,14 +18,14 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public SpaceShipModel spaceShip { get; set; }
         [DataType(DataType.Date)]
         [BindProperty]
-        public DateTime EntryTime { get; set; } = DateTime.Now;
+        public DateTime EntryTime { get; set; } = DateTime.UtcNow;
         [DataType(DataType.Date)]
         [BindProperty]
-        public DateTime ExitTime { get; set; } = DateTime.Now;
+        public DateTime ExitTime { get; set; } = DateTime.UtcNow;
 
         [TempData]
         public string FormResult { get; set; }
-        public double Payment { get; set; }
+     
         public ParkingViewModel parkinglotviewModel { get; set; }
         public SpaceShipViewModel SpaceShipViewModel { get; set; }
 
@@ -64,23 +64,26 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     {
                         EnterTime = EntryTime,
                         ExitTime = ExitTime,
+                        ExitTimeEarlierTimeWatcher = ExitTime,
                         RegisteringsNummer = spaceShip.RegisteringsNummer,
                         ParkingLotNumber = ParkLot2.parkingLotNumber
                     };
+                    Transaction transaction = new Transaction();
+                    // we store the total cost of our spaceship stay in our variable Payment. 
+                    newSpaceShipOnParkingLot.CurrentPrice = transaction.PriceRate(EntryTime, ExitTime);
+
                     // UPDATES parkinglot with a spaceship 
                     ParkLot2.SpaceShip = newSpaceShipOnParkingLot;
                     _applicationDbContext.ParkingLotModels.Update(ParkLot2);
                     _applicationDbContext.SaveChanges();
                     //calls the Transcation class, 
-                    Transaction transaction = new Transaction();
-                    // we store the total cost of our spaceship stay in our variable Payment. 
-                    Payment = transaction.PriceRate(EntryTime, ExitTime);
+          
                     // we use timespan to see datetime between how long our visitor has stayed. 
                     TimeSpan time = ExitTime - EntryTime;
                     string output = null;
                     int todaldays = Convert.ToInt32(time.TotalDays);
                     output = string.Format("Days {0} Hours {1} Minutes {2} ", todaldays, time.Hours, time.Minutes);
-                    FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(Payment) + "kr.  \n SpaceShip:" + newSpaceShipOnParkingLot.RegisteringsNummer + " you are staying with us for: " + output + " \n Your parking starts at: " + Convert.ToString(EntryTime);
+                    FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(newSpaceShipOnParkingLot.CurrentPrice) + "kr.  \n SpaceShip: " + newSpaceShipOnParkingLot.RegisteringsNummer + " you are staying with us for: " + output + " \n Your parking starts at: " + Convert.ToString(EntryTime);
                     return new RedirectToPageResult("/TheParkingLot/IndexEntre");
 
                 }// Time can't be less than present time

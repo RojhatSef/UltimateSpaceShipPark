@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAccessService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221118161518_SpaceShipUlti")]
-    partial class SpaceShipUlti
+    [Migration("20221205133535_UltimateSpaceShip")]
+    partial class UltimateSpaceShip
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,9 @@ namespace CarAccessService.Migrations
                     b.Property<int?>("SpaceShipID")
                         .HasColumnType("int");
 
+                    b.Property<int>("Zone")
+                        .HasColumnType("int");
+
                     b.Property<int>("parkingLotLevel")
                         .HasColumnType("int");
 
@@ -50,16 +53,22 @@ namespace CarAccessService.Migrations
 
             modelBuilder.Entity("CarModelService.SpaceShipModel", b =>
                 {
-                    b.Property<int>("SpaceShipID")
+                    b.Property<int?>("SpaceShipID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpaceShipID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("SpaceShipID"), 1L, 1);
+
+                    b.Property<double?>("CurrentPrice")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("EnterTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ExitTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExitTimeEarlierTimeWatcher")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ParkingLotNumber")
@@ -68,6 +77,9 @@ namespace CarAccessService.Migrations
                     b.Property<string>("RegisteringsNummer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("TotalCost")
+                        .HasColumnType("float");
 
                     b.HasKey("SpaceShipID");
 

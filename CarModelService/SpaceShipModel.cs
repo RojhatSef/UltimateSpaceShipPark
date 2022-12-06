@@ -12,10 +12,12 @@ namespace CarModelService
         [Required]
         public string RegisteringsNummer { get; set; }
 
-
+        public double? CurrentPrice { get; set; }
+        public double? TotalCost { get; set; }
         public int? ParkingLotNumber { get; set; }
         public DateTime EnterTime { get; set; }
         public DateTime ExitTime { get; set; }
+        public DateTime ExitTimeEarlierTimeWatcher { get; set; }
 
     }
 }

@@ -27,6 +27,7 @@ namespace UltimateSpaceShipPark
                         ParkingLotModel parkingLotModel = new ParkingLotModel();
                         parkingLotModel.parkingLotLevel = j;
                         parkingLotModel.parkingLotNumber = i + 1;
+                        parkingLotModel.Zone = 888; 
                         parkingLotModel.SpaceShipID = null;
                         parkModels.Add(parkingLotModel);
                     }
