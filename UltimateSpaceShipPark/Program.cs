@@ -1,4 +1,6 @@
 using CarAccessService;
+using CarModelService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UltimateSpaceShipPark;
 
@@ -9,7 +11,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContextPool<ApplicationDbContext>(option => option.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 12;
+    options.Password.RequiredUniqueChars = 2;
 
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IParkingLotRepository, SQLParkingSpotRepository>();
 builder.Services.AddScoped<ISpaceShipRepository, SQLSpaceShipRepository>();
 builder.Services.AddScoped<SeedData>();
@@ -34,6 +41,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
