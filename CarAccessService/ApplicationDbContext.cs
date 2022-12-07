@@ -16,7 +16,10 @@ namespace CarAccessService
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-
+            modelBuilder.Entity<ApplicationUser>(a =>
+            {
+                a.HasNoKey();
+            });
             base.OnModelCreating(modelBuilder);
         }
 

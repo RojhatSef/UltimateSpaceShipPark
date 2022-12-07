@@ -9,7 +9,7 @@ namespace CarModelService
 
         public string? City { get; set; }
         public string? Country { get; set; }
-        public ICollection<string>? HelpIdes { get; set; }
+        public List<string>? HelpIdes { get; set; }
 
 
     }

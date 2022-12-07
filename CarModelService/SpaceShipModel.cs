@@ -19,5 +19,8 @@ namespace CarModelService
         public DateTime ExitTime { get; set; }
         public DateTime ExitTimeEarlierTimeWatcher { get; set; }
 
+        public string? ApplicationUserId { get; set; }
+        public virtual ApplicationUser? ApplicationUser { get; set; }
+
     }
 }
