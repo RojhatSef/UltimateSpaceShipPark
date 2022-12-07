@@ -4,10 +4,13 @@ namespace CarModelService
 {
     public class ApplicationUser : IdentityUser
     {
-        public List<SpaceShipModel> SpaceShip { get; set; }
+
+        public ICollection<SpaceShipModel>? SpaceShip { get; set; }
 
         public string? City { get; set; }
         public string? Country { get; set; }
+        public ICollection<string>? HelpIdes { get; set; }
+
 
     }
 }
