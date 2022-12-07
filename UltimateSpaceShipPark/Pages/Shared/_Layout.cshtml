@@ -26,10 +26,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                    
-                 
+                     @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="TheParkingLot/IndexEntre">ParkingLot</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="Log/LogOut">Logg Out</a>
+                            </li>
+                        }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="TheParkingLot/IndexEntre">ParkingLot</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="Log/Register">Register</a>
                         </li>
+                     
                     </ul>
                 </div>
             </div>

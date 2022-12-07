@@ -1,59 +1,49 @@
-﻿using CarModelService;
+﻿using CarAccessService;
+using CarModelService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using UltimateSpaceShipPark.ViewModels;
 
 namespace UltimateSpaceShipPark.Pages
 {
-
     public class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<IndexModel> _logger;
 
-        [BindProperty]
-        public RegisterViewModel Model { get; set; }
-        public IndexModel(ILogger<IndexModel> logger, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public ApplicationUser appUser { get; set; }
+        private readonly ApplicationDbContext context;
+        public IndexModel(ILogger<IndexModel> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _logger = logger;
             this.userManager = userManager;
-            this.signInManager = signInManager;
+            this.context = context;
         }
+        [TempData]
+        public string TempRegData { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnGet(string id)
         {
-            if (ModelState.IsValid)
+
+
+            var groupUser = await userManager.GetUserAsync(User);
+            appUser = groupUser;
+            if (TempRegData == null)
             {
-                //this might be wrong, as we are creating a userModel and we're looking for identityUsers. Need to check this later
-                var usermail = await userManager.FindByEmailAsync(Model.Email);
-                if (usermail == null)
-                {
-
-                    //var spaceshipModel = new SpaceShipModel { RegisteringsNummer = Model.Email, EnterTime = null, ExitTime = null, ExitTimeEarlierTimeWatcher = null,  };
-                    var user = new ApplicationUser { UserName = Model.Email, Email = Model.Email, SpaceShip = null };
-                    var result = await userManager.CreateAsync(user, Model.Password);
-
-                    if (result.Succeeded)
-                    {
-                        await signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToPage("/Index");
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-                else
-                {
-
-                    ModelState.AddModelError(string.Empty, "Email is already in use");
-
-                }
-
+                return Page();
             }
+            else
+            {
+                var tempShip = context.SpaceShipModels.FirstOrDefault(o => o.RegisteringsNummer == TempRegData);
+
+                appUser.SpaceShip.Add(tempShip);
+                context.Update(appUser);
+                context.SaveChanges();
+            }
+
+
             return Page();
+
         }
     }
 }

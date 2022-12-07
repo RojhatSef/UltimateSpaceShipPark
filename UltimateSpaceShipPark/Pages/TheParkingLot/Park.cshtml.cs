@@ -28,6 +28,9 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
 
         [TempData]
         public string FormResult { get; set; }
+        [TempData]
+        public string TempRegData { get; set; }
+
 
         public ParkingViewModel parkinglotviewModel { get; set; }
         public SpaceShipViewModel SpaceShipViewModel { get; set; }
@@ -75,6 +78,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     // we store the total cost of our spaceship stay in our variable Payment. 
                     newSpaceShipOnParkingLot.CurrentPrice = transaction.PriceRate(EntryTime, ExitTime);
 
+                    //send back reg number to add to Applciationuser
+                    TempRegData = newSpaceShipOnParkingLot.RegisteringsNummer;
                     // UPDATES parkinglot with a spaceship 
                     ParkLot2.SpaceShip = newSpaceShipOnParkingLot;
                     _applicationDbContext.ParkingLotModels.Update(ParkLot2);
@@ -87,11 +92,12 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     int todaldays = Convert.ToInt32(time.TotalDays);
                     output = string.Format("Days {0} Hours {1} Minutes {2} ", todaldays, time.Hours, time.Minutes);
                     FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(newSpaceShipOnParkingLot.CurrentPrice) + "kr.  \n SpaceShip: " + newSpaceShipOnParkingLot.RegisteringsNummer + " you are staying with us for: " + output + " \n Your parking starts at: " + Convert.ToString(EntryTime);
-                    return new RedirectToPageResult("/TheParkingLot/IndexEntre");
+                    return new RedirectToPageResult("/Index");
 
                 }// Time can't be less than present time
                 FormResult = "Peepop, We don't have a time machine, You tried to enter present time or past time. Try again ";
                 return new RedirectToPageResult("/TheParkingLot/IndexEntre");
+
             }
             else
             {

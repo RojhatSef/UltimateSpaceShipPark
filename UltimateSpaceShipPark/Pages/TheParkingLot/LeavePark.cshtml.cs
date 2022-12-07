@@ -53,7 +53,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     var dtEnterValue = SpaceShipModels.EnterTime.Value;
                     var dtEnterExit = SpaceShipModels.ExitTime.Value;
                     var dtEnterExitEarlierTime = SpaceShipModels.ExitTimeEarlierTimeWatcher.Value;
-                    if (SpaceShipModels.ExitTimeEarlierTimeWatcher < SpaceShipModels.ExitTime)
+                    if (dtEnterExitEarlierTime < dtEnterExit)
                     {
 
                         SpaceShipModels.TotalCost = transaction.PriceRate(dtEnterValue, dtEnterExitEarlierTime);
