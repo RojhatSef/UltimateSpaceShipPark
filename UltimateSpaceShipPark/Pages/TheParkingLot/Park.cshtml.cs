@@ -20,6 +20,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         [BindProperty]
         public SpaceShipModel spaceShip { get; set; }
         [DataType(DataType.Date)]
+
         [BindProperty]
         public DateTime EntryTime { get; set; } = DateTime.UtcNow;
         [DataType(DataType.Date)]

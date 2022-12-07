@@ -24,22 +24,21 @@ namespace UltimateSpaceShipPark.Pages
 
         public async Task<IActionResult> OnGet(string id)
         {
-
-
             var groupUser = await userManager.GetUserAsync(User);
-            appUser = groupUser;
-            if (TempRegData == null)
+
+            if (TempRegData != null)
             {
-                return Page();
-            }
-            else
-            {
+
+
+
                 var tempShip = context.SpaceShipModels.FirstOrDefault(o => o.RegisteringsNummer == TempRegData);
 
-                appUser.SpaceShip.Add(tempShip);
-                context.Update(appUser);
+                groupUser.SpaceShip = new List<SpaceShipModel> { tempShip };
+                context.Update(groupUser);
                 context.SaveChanges();
+
             }
+
 
 
             return Page();
