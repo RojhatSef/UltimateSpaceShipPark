@@ -1,10 +1,12 @@
 using CarAccessService;
 using CarModelService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace UltimateSpaceShipPark.Pages.TheParkingLot
 {
+    [Authorize]
     public class LeaveParkModel : PageModel
     {
         private readonly ApplicationDbContext _context;

@@ -19,6 +19,10 @@ builder.Services.Configure<RouteOptions>(option =>
     option.LowercaseQueryStrings = true;
     option.AppendTrailingSlash = true;
 });
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Login/IndexEntre";
+});
 var app = builder.Build();
 database();
 // Configure the HTTP request pipeline.

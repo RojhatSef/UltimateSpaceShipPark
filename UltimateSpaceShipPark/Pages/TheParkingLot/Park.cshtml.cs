@@ -1,12 +1,15 @@
 using CarAccessService;
 using CarModelService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using UltimateSpaceShipPark.ViewModels;
 
+
 namespace UltimateSpaceShipPark.Pages.TheParkingLot
 {
+    [Authorize]
     public class ParkModel : PageModel
     {
 
@@ -18,10 +21,10 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public SpaceShipModel spaceShip { get; set; }
         [DataType(DataType.Date)]
         [BindProperty]
-        public DateTime EntryTime { get; set; } = DateTime.Now;
+        public DateTime EntryTime { get; set; } = DateTime.UtcNow;
         [DataType(DataType.Date)]
         [BindProperty]
-        public DateTime ExitTime { get; set; } = DateTime.Now;
+        public DateTime ExitTime { get; set; } = DateTime.UtcNow;
 
         [TempData]
         public string FormResult { get; set; }
