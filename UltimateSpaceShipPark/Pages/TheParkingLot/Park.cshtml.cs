@@ -1,12 +1,15 @@
 using CarAccessService;
 using CarModelService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using UltimateSpaceShipPark.ViewModels;
 
+
 namespace UltimateSpaceShipPark.Pages.TheParkingLot
 {
+    [Authorize]
     public class ParkModel : PageModel
     {
 
@@ -25,7 +28,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
 
         [TempData]
         public string FormResult { get; set; }
-     
+
         public ParkingViewModel parkinglotviewModel { get; set; }
         public SpaceShipViewModel SpaceShipViewModel { get; set; }
 
@@ -77,7 +80,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     _applicationDbContext.ParkingLotModels.Update(ParkLot2);
                     _applicationDbContext.SaveChanges();
                     //calls the Transcation class, 
-          
+
                     // we use timespan to see datetime between how long our visitor has stayed. 
                     TimeSpan time = ExitTime - EntryTime;
                     string output = null;

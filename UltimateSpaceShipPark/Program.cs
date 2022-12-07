@@ -17,6 +17,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequiredUniqueChars = 2;
 
 }).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Login/IndexEntre";
+});
 builder.Services.AddScoped<IParkingLotRepository, SQLParkingSpotRepository>();
 builder.Services.AddScoped<ISpaceShipRepository, SQLSpaceShipRepository>();
 builder.Services.AddScoped<SeedData>();

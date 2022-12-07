@@ -1,10 +1,12 @@
 using CarAccessService;
 using CarModelService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace UltimateSpaceShipPark.Pages.TheParkingLot
 {
+    [Authorize]
     public class LeaveParkModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -46,17 +48,17 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                 SpaceShipModels.ExitTimeEarlierTimeWatcher = DateTime.UtcNow;
                 _context.SpaceShipModels.Update(SpaceShipModels);
                 _context.SaveChanges();
-                if(SpaceShipModels.ExitTimeEarlierTimeWatcher < SpaceShipModels.ExitTime)
+                if (SpaceShipModels.ExitTimeEarlierTimeWatcher < SpaceShipModels.ExitTime)
                 {
 
                     SpaceShipModels.TotalCost = transaction.PriceRate(SpaceShipModels.EnterTime, SpaceShipModels.ExitTimeEarlierTimeWatcher);
                     SpaceShipModels.CurrentPrice = transaction.PriceRate(SpaceShipModels.ExitTimeEarlierTimeWatcher, SpaceShipModels.ExitTime);
                     TimeSpan CurrentTime = SpaceShipModels.ExitTimeEarlierTimeWatcher - SpaceShipModels.EnterTime;
-                    TimeSpan returnMoney = SpaceShipModels.ExitTime - SpaceShipModels.ExitTimeEarlierTimeWatcher; 
+                    TimeSpan returnMoney = SpaceShipModels.ExitTime - SpaceShipModels.ExitTimeEarlierTimeWatcher;
                     string outputCurrent = null;
                     int todaldaysCurrent = Convert.ToInt32(CurrentTime.TotalDays);
                     outputCurrent = string.Format("Days {0} Hours {1} Minutes {2} ", todaldaysCurrent, CurrentTime.Hours, CurrentTime.Minutes);
-                    FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(SpaceShipModels.TotalCost) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + outputCurrent + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTimeEarlierTimeWatcher + " \n Returning: " + SpaceShipModels.CurrentPrice + "Amount back" );
+                    FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(SpaceShipModels.TotalCost) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + outputCurrent + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTimeEarlierTimeWatcher + " \n Returning: " + SpaceShipModels.CurrentPrice + "Amount back");
                     return Page();
                 }
                 else
@@ -69,7 +71,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(SpaceShipModels.TotalCost) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + output + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTime);
                     return Page();
                 }
-         
+
             }
             return new RedirectToPageResult("/TheParkingLot/IndexEntre");
 
