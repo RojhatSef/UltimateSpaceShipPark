@@ -4,5 +4,17 @@
     ViewData["Title"] = "Home page";
 }
 
+@if (Model.FormResult == null)
+{
+
+}
+else
+{
+    <div class="card m-3">
+        <div class="card-header">
+            <h4>@Model.FormResult</h4>
+        </div>
+    </div>
+}
 <h3> Welcome to the spaceship parking lot! before you begin. The parkinglot will not check if you have overstayed your time here.</h3>
 <h3> Our software does not use timer watch to keep an eye on how long you have stayed. You can chose how long you want to stay at the parking lot </h3>

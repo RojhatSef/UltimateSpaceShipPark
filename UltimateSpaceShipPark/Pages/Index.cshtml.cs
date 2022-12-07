@@ -22,6 +22,11 @@ namespace UltimateSpaceShipPark.Pages
         [TempData]
         public string TempRegData { get; set; }
 
+        [TempData]
+        public string FormResult { get; set; }
+        [TempData]
+        public int formresult2 { get; set; }
+
         public async Task<IActionResult> OnGet(string id)
         {
             var groupUser = await userManager.GetUserAsync(User);

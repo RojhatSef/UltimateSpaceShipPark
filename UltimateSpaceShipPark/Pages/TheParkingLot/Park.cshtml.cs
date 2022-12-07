@@ -1,6 +1,7 @@
 using CarAccessService;
 using CarModelService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
     {
 
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly UserManager<ApplicationUser> userManager;
 
         [BindProperty]
         public ParkingLotModel ParkLot { get; set; }
@@ -36,10 +38,11 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public ParkingViewModel parkinglotviewModel { get; set; }
         public SpaceShipViewModel SpaceShipViewModel { get; set; }
 
-        public ParkModel(ApplicationDbContext applicationDbContext)
+        public ParkModel(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
 
             _applicationDbContext = applicationDbContext;
+            this.userManager = userManager;
         }
         public IActionResult OnGet(int id)
         {
@@ -53,7 +56,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             return Page();
 
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
 
             if (ModelState.IsValid)
@@ -67,6 +70,9 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                         return new RedirectToPageResult("/TheParkingLot/IndexEntre");
                     }
                     var ParkLot2 = _applicationDbContext.ParkingLotModels.FirstOrDefault(n => n.SpaceParkingLotId == ParkLot.SpaceParkingLotId);
+
+
+
                     SpaceShipModel newSpaceShipOnParkingLot = new SpaceShipModel
                     {
                         EnterTime = EntryTime,
@@ -75,6 +81,9 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                         RegisteringsNummer = spaceShip.RegisteringsNummer,
                         ParkingLotNumber = ParkLot2.parkingLotNumber
                     };
+
+
+
                     Transaction transaction = new Transaction();
                     // we store the total cost of our spaceship stay in our variable Payment. 
                     newSpaceShipOnParkingLot.CurrentPrice = transaction.PriceRate(EntryTime, ExitTime);

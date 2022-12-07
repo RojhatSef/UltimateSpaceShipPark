@@ -63,7 +63,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                         string outputCurrent = null;
                         int todaldaysCurrent = Convert.ToInt32(CurrentTime.TotalDays);
                         outputCurrent = string.Format("Days {0} Hours {1} Minutes {2} ", todaldaysCurrent, CurrentTime.Hours, CurrentTime.Minutes);
-                        FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(SpaceShipModels.TotalCost) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + outputCurrent + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTimeEarlierTimeWatcher + " \n Returning: " + SpaceShipModels.CurrentPrice + "Amount back");
+                        FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(SpaceShipModels.TotalCost) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + outputCurrent + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTimeEarlierTimeWatcher + " \n Returning: " + SpaceShipModels.CurrentPrice + " Kr back");
                         return Page();
                     }
                     else
