@@ -30,7 +30,9 @@ namespace UltimateSpaceShipPark.Pages
                 var usermail = await userManager.FindByEmailAsync(Model.Email);
                 if (usermail == null)
                 {
-                    var user = new ApplicationUser { UserName = Model.Email, Email = Model.Email, };
+
+                    //var spaceshipModel = new SpaceShipModel { RegisteringsNummer = Model.Email, EnterTime = null, ExitTime = null, ExitTimeEarlierTimeWatcher = null,  };
+                    var user = new ApplicationUser { UserName = Model.Email, Email = Model.Email, SpaceShip = null };
                     var result = await userManager.CreateAsync(user, Model.Password);
 
                     if (result.Succeeded)
