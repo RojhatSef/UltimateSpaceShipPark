@@ -10,7 +10,7 @@ namespace CarModelService
         [ValidateNever]
         public int? SpaceShipID { get; set; }
         [Required]
-        public string? RegisteringsNummer { get; set; }
+        public string RegisteringsNummer { get; set; }
 
         public double? CurrentPrice { get; set; }
         public double? TotalCost { get; set; }
