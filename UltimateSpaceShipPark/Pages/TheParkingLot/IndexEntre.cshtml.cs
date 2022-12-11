@@ -15,13 +15,16 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         private readonly UserManager<ApplicationUser> userManager;
 
         private readonly ApplicationDbContext _context;
+
         [BindProperty]
         public ParkingLotModel ParkSpot { get; set; }
 
         [TempData]
         public string FormResult { get; set; }
+
         [TempData]
         public int formresult2 { get; set; }
+
         [TempData]
         public string userIDString { get; set; }
 

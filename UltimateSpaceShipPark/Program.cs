@@ -59,3 +59,7 @@ void database()
         seeder.seedData();
     }
 }
+
+// geo location
+// parkingSpot left
+// if user is double parked, users can take a photo send it it
