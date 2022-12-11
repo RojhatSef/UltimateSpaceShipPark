@@ -35,6 +35,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public string TempRegData { get; set; }
 
 
+
         public ParkingViewModel parkinglotviewModel { get; set; }
         public SpaceShipViewModel SpaceShipViewModel { get; set; }
 
@@ -46,6 +47,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         }
         public IActionResult OnGet(int id)
         {
+
             if (id != null)
             {
                 // retrive the parklot object store it in the variable then pass it to the objekt.  I tried using ParkLot object instead of the parklot, but it only retrived the iD and skipped the rest. 

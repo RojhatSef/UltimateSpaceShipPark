@@ -1,7 +1,14 @@
 ﻿@model ParkingLotModel
+@using Microsoft.AspNetCore.Identity
+@using CarAccessService; 
+@inject UserManager<ApplicationUser> SignInManager
 @{
-
+    
     var showButtons = (bool)ViewData["ShowButtons"];
+    var TempdatauserId = TempData["userIDString"];
+    string userIdString = Model.SpaceShip.ApplicationUser.Id; 
+   
+
     
 
 }
@@ -11,15 +18,28 @@
         {
             <i class="bi bi-p-square-fill" style="font-size: 4rem"></i>
             <h2>Open parking Spot</h2>
+            <h3>Parking Slot: @Model.parkingLotNumber</h3>
+            <h3>Parking Level: @Model.parkingLotLevel</h3>
         }
         else
         {
-            <i class="bi bi-rocket-takeoff" style="font-size: 4rem"></i>
-            <h2>parking Spot is occupied</h2>
-       
+            if (Model.SpaceShip.ApplicationUserId != null)
+            {
+                if (Model.SpaceShip.ApplicationUserId == TempdatauserId){
+                    <i class="bi bi-rocket-takeoff" style="font-size: 4rem"></i>
+                    <h2>parking Spot is occupied</h2>
+                    <h3>Parking Slot: @Model.parkingLotNumber</h3>
+                    <h3>Parking Level: @Model.parkingLotLevel</h3>
+                }
+             
+            }
+            else
+            {
+
+            }
+          
         }
-        <h3>Parking Slot: @Model.parkingLotNumber</h3>
-        <h3>Parking Level: @Model.parkingLotLevel</h3>
+  
 
     </div>
 
@@ -30,13 +50,21 @@
 
             @if (@Model.SpaceShipID == null)
             {
-               <a asp-page="Park" asp-route-id="@Model.SpaceParkingLotId"  class="btn btn-primary">Park</a>
-            
+                <a asp-page="Park" asp-route-id="@Model.SpaceParkingLotId"  class="btn btn-primary">Park</a>
+
             }
             else
             {
+                if (Model.SpaceShip.ApplicationUserId != null)
+                {
+                    if (userIdString == TempdatauserId)
+                    {
+                        <a asp-page="LeavePark" asp-route-id="@Model.SpaceShipID" class="btn btn-primary">Leave Park</a>
+                    }
+                 
+                   
+                }
               
-                <a asp-page="LeavePark" asp-route-id="@Model.SpaceShipID" class="btn btn-primary">Leave Park</a>
             }
        
         
