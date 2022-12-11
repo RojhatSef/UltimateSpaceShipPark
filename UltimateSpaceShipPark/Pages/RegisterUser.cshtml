@@ -1,0 +1,46 @@
+﻿@page
+@model RegisterUserModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    ViewData["Title"] = "Register";
+}
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>Welcome back</p>
+}
+else
+{
+    <div class="container mt-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-12 col-md-12 col-1g-4">
+
+                <h1>Car Registration User</h1>
+                <form method="post">
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Model.Email">Email Adress</label>
+                        <input type="text" asp-for="Model.Email" class="form-control" />
+                        <span asp-validation-for="Model.Email" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Model.Password">Password</label>
+                        <input type="password" asp-for="Model.Password" class="form-control" />
+                        <span asp-validation-for="Model.Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Model.ConfirmPassword">Confirm Password</label>
+                        <input type="password" asp-for="Model.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Model.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿@page
+@model UltimateSpaceShipPark.Pages.Log.LogoutUserModel
+@{
+    ViewData["Title"] = "LogOut";
+}
+<form method="post">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <p> Are you sure you want to logout?</p>
+                <p> @User.Identity.Name</p>
+                <p>
+                    <button class="btn btn-primary" asp-page-handler="DontLogOut">Cancel</button>
+                    <button class="btn btn-danger m-lg-5 border-dark" asp-page-handler="Logout">Logout</button>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</form>

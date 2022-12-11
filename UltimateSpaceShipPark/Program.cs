@@ -28,7 +28,7 @@ builder.Services.Configure<RouteOptions>(option =>
 {
     option.LowercaseUrls = true;
     option.LowercaseQueryStrings = true;
-    option.AppendTrailingSlash = true;
+
 });
 var app = builder.Build();
 database();
