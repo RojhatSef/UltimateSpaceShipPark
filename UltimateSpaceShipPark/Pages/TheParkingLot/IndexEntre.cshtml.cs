@@ -25,9 +25,13 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         [TempData]
         public int formresult2 { get; set; }
 
-        [TempData]
+        [BindProperty]
         public string userIDString { get; set; }
+        [BindProperty]
+        public int? spaceshipIdprop { get; set; }
 
+        [BindProperty]
+        public SpaceShipModel ModelSpaceShip { get; set; }
 
         public IEnumerable<ParkingLotModel> ParkingSpot { get; set; }
         public IEnumerable<SpaceShipModel> spaceShipModels { get; set; }
@@ -42,14 +46,29 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         }
         public async Task<IActionResult> OnGet()
         {
-            //var groupUser = await userManager.GetUserAsync(User);
-            var groupUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            userIDString = groupUser;
+            var groupUser = await userManager.GetUserAsync(HttpContext.User);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            userIDString = userId;
+            AddSpaceShipTo(groupUser);
+
+            return Page();
+
+        }
+        public void AddSpaceShipTo(ApplicationUser user)
+        {
+            if (user.SpaceShip == null)
+            {
+
+            }
+            else
+            {
+                var spaceshipId = _context.SpaceShipModels.FirstOrDefault(n => n.ApplicationUserId == userIDString);
+                spaceshipIdprop = spaceshipId.SpaceShipID;
+            }
 
             //getting our models for looping later.
             ParkingSpot = _context.ParkingLotModels;
             spaceShipModels = _spaceShipRepository.search(searchTerm);
-            return Page();
 
         }
 

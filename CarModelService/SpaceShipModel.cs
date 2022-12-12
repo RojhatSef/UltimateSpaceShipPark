@@ -15,6 +15,7 @@ namespace CarModelService
         public double? CurrentPrice { get; set; }
         public double? TotalCost { get; set; }
         public int? ParkingLotNumber { get; set; }
+        public int? parkingLotLevel { get; set; }
 
         public DateTime? EnterTime { get; set; }
 

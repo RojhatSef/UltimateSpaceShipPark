@@ -81,7 +81,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                         ExitTime = ExitTime,
                         ExitTimeEarlierTimeWatcher = ExitTime,
                         RegisteringsNummer = spaceShip.RegisteringsNummer,
-                        ParkingLotNumber = ParkLot2.parkingLotNumber
+                        ParkingLotNumber = ParkLot2.parkingLotNumber,
+                        parkingLotLevel = ParkLot2.parkingLotLevel
                     };
 
 

@@ -23,6 +23,7 @@ builder.Services.ConfigureApplicationCookie(config =>
 });
 builder.Services.AddScoped<IParkingLotRepository, SQLParkingSpotRepository>();
 builder.Services.AddScoped<ISpaceShipRepository, SQLSpaceShipRepository>();
+
 builder.Services.AddScoped<SeedData>();
 builder.Services.Configure<RouteOptions>(option =>
 {

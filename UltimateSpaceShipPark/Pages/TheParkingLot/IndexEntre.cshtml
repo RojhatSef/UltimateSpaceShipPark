@@ -1,8 +1,10 @@
 ﻿@page
+
 @model UltimateSpaceShipPark.Pages.TheParkingLot.IndexEntreModel
 @{
     ViewData["ShowButtons"] = true;
-   
+    var showButtons = (bool)ViewData["ShowButtons"];
+    var currentShipId = Model.spaceshipIdprop; 
 
 }
 
@@ -30,8 +32,47 @@
         @foreach (var item in row)
         {
             <div class="col">
+
+                @*<partial name="/Pages/Shared/_DisplayParkingLots.cshtml" model="item" view-data="ViewData" />*@
                 
-                <partial name="/Pages/Shared/_DisplayParkingLots.cshtml" model="item" view-data="ViewData" />
+             
+             
+                    @if (item.SpaceShipID == null)
+                {
+                       <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+                        <div class="card-header">
+                            <i class="bi bi-p-square-fill" style="font-size: 4rem"></i>
+                            <h2>Open parking Spot</h2>
+                            <h3>Parking Slot: @item.parkingLotNumber</h3>
+                            <h3>Parking Level: @item.parkingLotLevel</h3>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a asp-page="Park" asp-route-id="@item.SpaceParkingLotId" style="ml-auto" class="btn btn-primary">Park</a>
+                        </div>
+                    </div>
+                }
+                    else
+                    {
+
+                    if (currentShipId == item.SpaceShipID )
+                        {
+                        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+                            <div class="card-header">
+                                <i class="bi bi-rocket-takeoff" style="font-size: 4rem"></i>
+                                <h2>parking Spot is occupied</h2>
+                                <h3>Parking Slot: @item.parkingLotNumber</h3>
+                                <h3>Parking Level: @item.parkingLotLevel</h3>
+                           @*     <h3>Parking Slot: @Model.parkingLotNumber</h3>
+                                <h3>Parking Level: @Model.parkingLotLevel</h3>*@
+                            </div>
+                            <div class="card-footer text-center">
+                                <a asp-page="LeavePark" asp-route-id="@item.SpaceShipID" style="ml-auto" class="btn btn-primary">Leave Park</a>
+                            </div>
+                        </div>
+                        }
+                    }
+           
+              
             </div>
         }
         <!-- empty columns -->

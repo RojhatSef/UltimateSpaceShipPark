@@ -1,76 +1,97 @@
-﻿@model ParkingLotModel
-@using Microsoft.AspNetCore.Identity
-@using CarAccessService; 
-@inject UserManager<ApplicationUser> SignInManager
-@{
+﻿@*@model ParkingLotModel*@
+@*@using Microsoft.AspNetCore.Identity
+@using CarAccessService;
+@using System.Security.Claims
+
+@inject SpaceShipModel spaceshipModels
+@inject ApplicationDbContext appDb
+@inject UserManager<ApplicationUser> SignInManager*@
+@*@{
 
     var showButtons = (bool)ViewData["ShowButtons"];
-    var TempdatauserId = TempData["userIDString"];
-    
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var groupUser =  SignInManager.GetUserAsync(User);
+ 
 
-    string userIdString = Model.SpaceShip.ApplicationUser.Id; 
+
+    string getSpaceship = null;
+    if (userId != null )
+    {
+        if (appDb.SpaceShipModels.GetType().GetProperty(us) == userId){
+            var randomship = userId.GetType().GetProperty(getSpaceship);
+            getSpaceship = @Model.SpaceShip.ApplicationUserId = userId;
+        }
    
 
+       
+    }
+   
+ 
+
+  
     
 
-}
+
+}*@
+@*
 <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
-    <div class="card-header">
+   
         @if (@Model.SpaceShipID == null )
-        {
+    {
+        <div class="card-header">
             <i class="bi bi-p-square-fill" style="font-size: 4rem"></i>
             <h2>Open parking Spot</h2>
             <h3>Parking Slot: @Model.parkingLotNumber</h3>
             <h3>Parking Level: @Model.parkingLotLevel</h3>
+        </div>
         }
+   
         else
         {
-            if (Model.SpaceShip.ApplicationUserId != null)
-            {
-                if (Model.SpaceShip.ApplicationUserId == TempdatauserId){
+
+            if (userId == getSpaceship)
+        {
+            <div class="card-header">
                     <i class="bi bi-rocket-takeoff" style="font-size: 4rem"></i>
                     <h2>parking Spot is occupied</h2>
                     <h3>Parking Slot: @Model.parkingLotNumber</h3>
                     <h3>Parking Level: @Model.parkingLotLevel</h3>
+            </div>
                 }
              
-            }
-            else
-            {
-
-            }
+       
           
         }
   
 
-    </div>
+ 
 
 
     @if (showButtons)
     {
-        <div class="card-footer text-center">
+      
 
             @if (@Model.SpaceShipID == null)
-            {
+        {
+              <div class="card-footer text-center">
                 <a asp-page="Park" asp-route-id="@Model.SpaceParkingLotId"  class="btn btn-primary">Park</a>
-
+            </div>
             }
             else
             {
-                if (Model.SpaceShip.ApplicationUserId != null)
-                {
-                    if (userIdString == TempdatauserId)
+
+                if (getSpaceship == userId)
                     {
+                <div class="card-footer text-center">
                         <a asp-page="LeavePark" asp-route-id="@Model.SpaceShipID" class="btn btn-primary">Leave Park</a>
+                </div>
                     }
-                 
-                   
-                }
+                             
               
             }
        
         
-        </div>
+       
     }
 
-</div>
+</div>*@
