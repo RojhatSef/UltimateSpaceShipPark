@@ -28,11 +28,15 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         [BindProperty]
         public string userIDString { get; set; }
         [BindProperty]
-        public int? spaceshipIdprop { get; set; }
+        public string spaceshipIdprop { get; set; }
+        [BindProperty]
+        public ApplicationUser applicationUser { get; set; }
+
 
         [BindProperty]
         public SpaceShipModel ModelSpaceShip { get; set; }
 
+        public ApplicationDbContext AppDbContext { get; set; }
         public IEnumerable<ParkingLotModel> ParkingSpot { get; set; }
         public IEnumerable<SpaceShipModel> spaceShipModels { get; set; }
         // search term was a function i wanted to implement, but it would probably be a future projekt. 
@@ -46,10 +50,10 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         }
         public async Task<IActionResult> OnGet()
         {
-            var groupUser = await userManager.GetUserAsync(HttpContext.User);
+            applicationUser = await userManager.GetUserAsync(HttpContext.User);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             userIDString = userId;
-            AddSpaceShipTo(groupUser);
+            AddSpaceShipTo(applicationUser);
 
             return Page();
 
@@ -63,7 +67,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             else
             {
                 var spaceshipId = _context.SpaceShipModels.FirstOrDefault(n => n.ApplicationUserId == userIDString);
-                spaceshipIdprop = spaceshipId.SpaceShipID;
+
+                spaceshipIdprop = spaceshipId.ApplicationUserId;
             }
 
             //getting our models for looping later.

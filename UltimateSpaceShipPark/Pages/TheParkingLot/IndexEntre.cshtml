@@ -4,7 +4,12 @@
 @{
     ViewData["ShowButtons"] = true;
     var showButtons = (bool)ViewData["ShowButtons"];
-    var currentShipId = Model.spaceshipIdprop; 
+   
+   
+   
+
+   
+    //var currenShipUserID = Model.spaceShipModels.Where(e => e.ApplicationUserId == Model.userIDString);
 
 }
 
@@ -31,6 +36,18 @@
     <div class="row">
         @foreach (var item in row)
         {
+
+            if (item.SpaceShipID != null)
+            {
+            
+                var currentShip = @Model.spaceShipModels.FirstOrDefault(n => n.ApplicationUserId == Model.userIDString);
+                if(Model.applicationUser.SpaceShip != null)
+                {
+                    Model.spaceshipIdprop = currentShip.ApplicationUserId;
+                }
+               
+                
+            }
             <div class="col">
 
                 @*<partial name="/Pages/Shared/_DisplayParkingLots.cshtml" model="item" view-data="ViewData" />*@
@@ -54,7 +71,7 @@
                     else
                     {
 
-                    if (currentShipId == item.SpaceShipID )
+                    if (Model.spaceshipIdprop == Model.userIDString)
                         {
                         <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
                             <div class="card-header">
