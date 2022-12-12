@@ -29,13 +29,12 @@ namespace UltimateSpaceShipPark.Pages
 
         public async Task<IActionResult> OnGet(string id)
         {
+            // gets current user
             var groupUser = await userManager.GetUserAsync(User);
 
             if (TempRegData != null)
             {
-
-
-
+                // gets a spaceship mode, we add this spaceshipmodel to our applicationUser, One user can have many spaceships
                 var tempShip = context.SpaceShipModels.FirstOrDefault(o => o.RegisteringsNummer == TempRegData);
 
                 groupUser.SpaceShip = new List<SpaceShipModel> { tempShip };
@@ -43,11 +42,7 @@ namespace UltimateSpaceShipPark.Pages
                 context.SaveChanges();
 
             }
-
-
-
             return Page();
-
         }
     }
 }

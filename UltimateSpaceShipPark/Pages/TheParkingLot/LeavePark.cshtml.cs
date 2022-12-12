@@ -53,6 +53,9 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     var dtEnterValue = SpaceShipModels.EnterTime.Value;
                     var dtEnterExit = SpaceShipModels.ExitTime.Value;
                     var dtEnterExitEarlierTime = SpaceShipModels.ExitTimeEarlierTimeWatcher.Value;
+
+                    // This block of code is checking if the user is leaving earlier then intended, should user leave before ExitTime 
+                    // we will give money back. This depends on how long the time between they paid and we took from them. 
                     if (dtEnterExitEarlierTime < dtEnterExit)
                     {
 
@@ -61,6 +64,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                         TimeSpan CurrentTime = dtEnterExitEarlierTime - dtEnterValue;
                         TimeSpan returnMoney = dtEnterExit - dtEnterExitEarlierTime;
                         string outputCurrent = null;
+                        // this part of the code is for sending back a recipe to our user on how much they are reciving back 
                         int todaldaysCurrent = Convert.ToInt32(CurrentTime.TotalDays);
                         outputCurrent = string.Format("Days {0} Hours {1} Minutes {2} ", todaldaysCurrent, CurrentTime.Hours, CurrentTime.Minutes);
                         FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(SpaceShipModels.TotalCost) + "kr. \n SpaceShip:" + SpaceShipModels.RegisteringsNummer + " Stayed with us for: " + outputCurrent + " \n you left at: " + Convert.ToString(SpaceShipModels.ExitTimeEarlierTimeWatcher + " \n Returning: " + SpaceShipModels.CurrentPrice + " Kr back");
@@ -68,6 +72,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     }
                     else
                     {
+                        // should the time exceed the stay, we will take payment for the amount they set. This could easily be changed to 
+                        // if the user stays longer, we just use our timer, instead of set time. 
                         SpaceShipModels.TotalCost = transaction.PriceRate(dtEnterValue, dtEnterExit);
                         TimeSpan time = dtEnterExit - dtEnterValue;
                         string output = null;

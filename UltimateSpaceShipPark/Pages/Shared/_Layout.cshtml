@@ -26,6 +26,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                    
+             @*       If our user is online we show them different output in html*@
                      @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">

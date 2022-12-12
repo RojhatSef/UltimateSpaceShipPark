@@ -56,25 +56,22 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
 
             }
             return Page();
-
         }
         public async Task<IActionResult> OnPostAsync()
         {
 
             if (ModelState.IsValid)
-            {//If userinput is lower than present day, 
+            {//If userinput is lower than present day, we don't accept it and they need to send a new set of time.  
                 if (EntryTime < ExitTime)
                 {
                     if (EntryTime == ExitTime)
                     {
-
                         FormResult = "Exist time can't be set to present time. try again";
                         return new RedirectToPageResult("/TheParkingLot/IndexEntre");
                     }
                     var ParkLot2 = _applicationDbContext.ParkingLotModels.FirstOrDefault(n => n.SpaceParkingLotId == ParkLot.SpaceParkingLotId);
-
-
-
+                    // we create a new instance of a ship when we park, 
+                    // TO DO i should retrive or make so users car/spaceship don't remove 100% as i could easily store them and reuse them instead of removing. 
                     SpaceShipModel newSpaceShipOnParkingLot = new SpaceShipModel
                     {
                         EnterTime = EntryTime,
@@ -84,9 +81,6 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                         ParkingLotNumber = ParkLot2.parkingLotNumber,
                         parkingLotLevel = ParkLot2.parkingLotLevel
                     };
-
-
-
                     Transaction transaction = new Transaction();
                     // we store the total cost of our spaceship stay in our variable Payment. 
                     newSpaceShipOnParkingLot.CurrentPrice = transaction.PriceRate(EntryTime, ExitTime);
@@ -98,7 +92,6 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     _applicationDbContext.ParkingLotModels.Update(ParkLot2);
                     _applicationDbContext.SaveChanges();
                     //calls the Transcation class, 
-
                     // we use timespan to see datetime between how long our visitor has stayed. 
                     TimeSpan time = ExitTime - EntryTime;
                     string output = null;
@@ -110,7 +103,6 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                 }// Time can't be less than present time
                 FormResult = "Peepop, We don't have a time machine, You tried to enter present time or past time. Try again ";
                 return new RedirectToPageResult("/TheParkingLot/IndexEntre");
-
             }
             else
             {

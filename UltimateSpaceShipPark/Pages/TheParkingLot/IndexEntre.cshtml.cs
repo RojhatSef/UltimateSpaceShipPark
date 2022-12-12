@@ -66,8 +66,9 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             }
             else
             {
+                // get spaceship that belongs to current user. 
                 var spaceshipId = _context.SpaceShipModels.FirstOrDefault(n => n.ApplicationUserId == userIDString);
-
+                // gets the userId from our spaceship
                 spaceshipIdprop = spaceshipId.ApplicationUserId;
             }
 
