@@ -1,8 +1,11 @@
 ﻿@page
-
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userInManager
 @model UltimateSpaceShipPark.Pages.TheParkingLot.IndexEntreModel
 @{
-    
+    var onlineUser = await userInManager.GetUserAsync(HttpContext.User);
+    var spaceShipModel = Model.spaceShipModels.FirstOrDefault(e => e.ApplicationUserId == onlineUser.Id); 
+
 }
 
 <!-- Shows user the recite -->
@@ -30,24 +33,23 @@
         @foreach (var item in row)
         {
 
-            if (item.SpaceShipID != null)
+            if (item.SpaceShipID != null && spaceShipModel != null)
             {
-            // we retrieve the the spaceship which is connected to our userID 
-                var currentShip = @Model.spaceShipModels.FirstOrDefault(n => n.ApplicationUserId == Model.userIDString);
+                // we retrieve the the spaceship which is connected to our userID
+                var currentShip = spaceShipModel.SpaceShipID;
+
+              
+
                 // we don't want to retrive users who does not have a spaceship parked
-                if(Model.applicationUser.SpaceShip != null)
-                {
-                    if(item.SpaceShip == Model.applicationUser.SpaceShip)
+
+                if (item.SpaceShipID == spaceShipModel.SpaceShipID)
                     {
-                        var Newmodel = Model.applicationUser.SpaceShip.FirstOrDefault(e => e.SpaceShipID == item.SpaceShipID);
+
+                        var Newmodel = onlineUser.SpaceShip.FirstOrDefault(e => e.SpaceShipID == item.SpaceShipID);
+                        Model.spaceshipIdprop = null ?? Newmodel.ApplicationUserId;
                         Model.IntSpaceID = Newmodel.SpaceShipID;
-              @*        Model.spaceshipIdprop = currentShip.ApplicationUserId;*@
-
-
-                    }
-                  Model.spaceshipIdprop = currentShip.ApplicationUserId;
-                  
-                }            
+                        Model.spaceshipIdprop = onlineUser.Id;      
+                }           
             }
             <div class="col">
                     @if (item.SpaceShipID == null)
@@ -68,7 +70,7 @@
                     {
                         // This checkes if our user and spaceship which is parked belongs to correct user, we don't want anyone to be able to leave
                         // with any spaceship
-                    if (Model.spaceshipIdprop == Model.userIDString)
+                    if (item.SpaceShip.ApplicationUserId == onlineUser.Id)
                         {
                         <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
                             <div class="card-header">

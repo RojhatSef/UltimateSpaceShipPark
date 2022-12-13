@@ -32,6 +32,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         [BindProperty]
         public int? IntSpaceID { get; set; }
         [BindProperty]
+        public int? IntspaceUserID { get; set; }
+        [BindProperty]
         public ApplicationUser applicationUser { get; set; }
 
 
@@ -53,6 +55,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public async Task<IActionResult> OnGet()
         {
             applicationUser = await userManager.GetUserAsync(HttpContext.User);
+            //IntspaceUserID = applicationUser.SpaceShip.Select(e => e.SpaceShipID) == ite);
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             userIDString = userId;
             AddSpaceShipTo(applicationUser);
@@ -68,6 +72,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             }
             else
             {
+                //applicationUser.SpaceShip.
+
 
             }
 
