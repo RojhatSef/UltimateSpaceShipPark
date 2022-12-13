@@ -37,7 +37,16 @@
                 // we don't want to retrive users who does not have a spaceship parked
                 if(Model.applicationUser.SpaceShip != null)
                 {
-                    Model.spaceshipIdprop = currentShip.ApplicationUserId;
+                    if(item.SpaceShip == Model.applicationUser.SpaceShip)
+                    {
+                        var Newmodel = Model.applicationUser.SpaceShip.FirstOrDefault(e => e.SpaceShipID == item.SpaceShipID);
+                        Model.IntSpaceID = Newmodel.SpaceShipID;
+              @*        Model.spaceshipIdprop = currentShip.ApplicationUserId;*@
+
+
+                    }
+                  Model.spaceshipIdprop = currentShip.ApplicationUserId;
+                  
                 }            
             }
             <div class="col">

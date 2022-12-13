@@ -30,6 +30,8 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         [BindProperty]
         public string spaceshipIdprop { get; set; }
         [BindProperty]
+        public int? IntSpaceID { get; set; }
+        [BindProperty]
         public ApplicationUser applicationUser { get; set; }
 
 
@@ -66,10 +68,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             }
             else
             {
-                // get spaceship that belongs to current user. 
-                var spaceshipId = _context.SpaceShipModels.FirstOrDefault(n => n.ApplicationUserId == userIDString);
-                // gets the userId from our spaceship
-                spaceshipIdprop = spaceshipId.ApplicationUserId;
+
             }
 
             //getting our models for looping later.
