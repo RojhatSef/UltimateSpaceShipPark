@@ -16,8 +16,6 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
 
         private readonly ApplicationDbContext _context;
 
-        [BindProperty]
-        public ParkingLotModel ParkSpot { get; set; }
 
         [TempData]
         public string FormResult { get; set; }
@@ -51,7 +49,6 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         {
             applicationUser = await userManager.GetUserAsync(HttpContext.User);
             //IntspaceUserID = applicationUser.SpaceShip.Select(e => e.SpaceShipID) == ite);
-
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             userIDString = userId;
             AddSpaceShipTo(applicationUser);

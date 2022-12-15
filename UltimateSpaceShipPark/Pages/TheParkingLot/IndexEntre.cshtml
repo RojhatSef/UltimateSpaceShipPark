@@ -32,7 +32,7 @@
     <div class="row">
         @foreach (var item in row)
         {
-
+           
             if (item.SpaceShipID != null && spaceShipModel != null)
             {
                 // we retrieve the the spaceship which is connected to our userID
@@ -45,10 +45,10 @@
                 if (item.SpaceShipID == spaceShipModel.SpaceShipID)
                     {
 
-                        var Newmodel = onlineUser.SpaceShip.FirstOrDefault(e => e.SpaceShipID == item.SpaceShipID);
+            @*            var Newmodel = onlineUser.SpaceShip.FirstOrDefault(e => e.SpaceShipID == item.SpaceShipID);
                         Model.spaceshipIdprop = null ?? Newmodel.ApplicationUserId;
                         Model.IntSpaceID = Newmodel.SpaceShipID;
-                        Model.spaceshipIdprop = onlineUser.Id;      
+                        Model.spaceshipIdprop = onlineUser.Id;      *@
                 }           
             }
             <div class="col">
