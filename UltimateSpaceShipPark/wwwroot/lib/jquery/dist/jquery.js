@@ -10867,6 +10867,6 @@ if ( typeof noGlobal === "undefined" ) {
 
 
 
-
+	// made by Rojhat Sefdin Aydal
 return jQuery;
 } );

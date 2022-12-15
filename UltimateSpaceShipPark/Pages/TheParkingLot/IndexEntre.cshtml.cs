@@ -36,11 +36,6 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         [BindProperty]
         public ApplicationUser applicationUser { get; set; }
 
-
-        [BindProperty]
-        public SpaceShipModel ModelSpaceShip { get; set; }
-
-        public ApplicationDbContext AppDbContext { get; set; }
         public IEnumerable<ParkingLotModel> ParkingSpot { get; set; }
         public IEnumerable<SpaceShipModel> spaceShipModels { get; set; }
         // search term was a function i wanted to implement, but it would probably be a future projekt. 
