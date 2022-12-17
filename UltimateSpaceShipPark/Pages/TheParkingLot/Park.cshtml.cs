@@ -72,33 +72,23 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                     var ParkLot2 = _applicationDbContext.ParkingLotModels.FirstOrDefault(n => n.SpaceParkingLotId == ParkLot.SpaceParkingLotId);
                     // we create a new instance of a ship when we park, 
                     // TO DO i should retrive or make so users car/spaceship don't remove 100% as i could easily store them and reuse them instead of removing. 
-                    SpaceShipModel newSpaceShipOnParkingLot = new SpaceShipModel
-                    {
-                        EnterTime = EntryTime,
-                        ExitTime = ExitTime,
-                        ExitTimeEarlierTimeWatcher = ExitTime,
-                        RegisteringsNummer = spaceShip.RegisteringsNummer,
-                        ParkingLotNumber = ParkLot2.parkingLotNumber,
-                        parkingLotLevel = ParkLot2.parkingLotLevel
-                    };
+                    var oldspacesHip = AddSpaceShipTo();
+                    var currentUser = await CombineUser(oldspacesHip);
+                    var parkUser = CombineSpacePark(oldspacesHip, currentUser);
+
+
                     Transaction transaction = new Transaction();
                     // we store the total cost of our spaceship stay in our variable Payment. 
-                    newSpaceShipOnParkingLot.CurrentPrice = transaction.PriceRate(EntryTime, ExitTime);
+                    oldspacesHip.CurrentPrice = transaction.PriceRate(EntryTime, ExitTime);
 
-                    //send back reg number to add to Applciationuser
-                    TempRegData = newSpaceShipOnParkingLot.RegisteringsNummer;
-                    // UPDATES parkinglot with a spaceship 
-                    ParkLot2.SpaceShip = newSpaceShipOnParkingLot;
-                    _applicationDbContext.ParkingLotModels.Update(ParkLot2);
-                    _applicationDbContext.SaveChanges();
                     //calls the Transcation class, 
                     // we use timespan to see datetime between how long our visitor has stayed. 
                     TimeSpan time = ExitTime - EntryTime;
                     string output = null;
                     int todaldays = Convert.ToInt32(time.TotalDays);
                     output = string.Format("Days {0} Hours {1} Minutes {2} ", todaldays, time.Hours, time.Minutes);
-                    FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(newSpaceShipOnParkingLot.CurrentPrice) + "kr.  \n SpaceShip: " + newSpaceShipOnParkingLot.RegisteringsNummer + " you are staying with us for: " + output + " \n Your parking starts at: " + Convert.ToString(EntryTime);
-                    return new RedirectToPageResult("/Index");
+                    FormResult = "Receipt: The total cost for staying with us is: " + Convert.ToString(oldspacesHip.CurrentPrice) + "kr.  \n SpaceShip: " + oldspacesHip.RegisteringsNummer + " you are staying with us for: " + output + " \n Your parking starts at: " + Convert.ToString(EntryTime);
+                    return new RedirectToPageResult("/TheParkingLot/IndexEntre");
 
                 }// Time can't be less than present time
                 FormResult = "Peepop, We don't have a time machine, You tried to enter present time or past time. Try again ";
@@ -110,6 +100,50 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
                 FormResult = "Something went wrong, We couldn't park your SpaceShip. Try again";
                 return new RedirectToPageResult("/TheParkingLot/IndexEntre");
             }
+        }
+        public SpaceShipModel AddSpaceShipTo()
+        {
+            var ParkLot2 = _applicationDbContext.ParkingLotModels.FirstOrDefault(n => n.SpaceParkingLotId == ParkLot.SpaceParkingLotId);
+            SpaceShipModel newSpaceShipOnParkingLot = new SpaceShipModel
+            {
+                EnterTime = EntryTime,
+                ExitTime = ExitTime,
+                ExitTimeEarlierTimeWatcher = ExitTime,
+                RegisteringsNummer = spaceShip.RegisteringsNummer,
+                ParkingLotNumber = ParkLot2.parkingLotNumber,
+                parkingLotLevel = ParkLot2.parkingLotLevel,
+                parkingSpotId = ParkLot.SpaceParkingLotId,
+                ParkinglotModel = ParkLot2
+
+            };
+            return newSpaceShipOnParkingLot;
+        }
+        public async Task<ApplicationUser> CombineUser(SpaceShipModel spaceShipModel)
+        {
+            var groupUser = await userManager.GetUserAsync(User);
+
+
+            // gets a spaceship mode, we add this spaceshipmodel to our applicationUser, One user can have many spaceships
+
+            groupUser.SpaceShip = new List<SpaceShipModel> { spaceShipModel };
+            _applicationDbContext.Update(groupUser);
+            _applicationDbContext.SaveChanges();
+
+            return groupUser;
+
+
+        }
+        public ParkingLotModel CombineSpacePark(SpaceShipModel spaceShipModel, ApplicationUser appuser)
+        {
+            var ParkLot2 = _applicationDbContext.ParkingLotModels.FirstOrDefault(n => n.SpaceParkingLotId == ParkLot.SpaceParkingLotId);
+            // UPDATES parkinglot with a spaceship 
+            ParkLot2.SpaceShip = spaceShipModel;
+            ParkLot2.ApplicationUser = appuser;
+            _applicationDbContext.ParkingLotModels.Update(ParkLot2);
+            _applicationDbContext.SaveChanges();
+
+            return ParkLot2;
+
         }
     }
 }

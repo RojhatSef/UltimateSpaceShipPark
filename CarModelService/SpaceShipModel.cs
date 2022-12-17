@@ -22,7 +22,8 @@ namespace CarModelService
         public DateTime? ExitTime { get; set; }
         public DateTime? ExitTimeEarlierTimeWatcher { get; set; }
 
-
+        public int? parkingSpotId { get; set; }
+        public ParkingLotModel? ParkinglotModel { get; set; }
 
 
         public string? ApplicationUserId { get; set; }

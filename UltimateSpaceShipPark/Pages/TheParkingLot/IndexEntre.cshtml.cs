@@ -24,17 +24,28 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
         public int formresult2 { get; set; }
 
         [BindProperty]
-        public string userIDString { get; set; }
+        public SpaceShipModel testSpace { get; set; } = new SpaceShipModel()
+        {
+            EnterTime = null,
+            ExitTime = null,
+            ExitTimeEarlierTimeWatcher = null,
+            RegisteringsNummer = String.Empty,
+            ParkingLotNumber = 9999,
+            parkingLotLevel = 9999,
+            parkingSpotId = null,
+            ParkinglotModel = null,
+            ApplicationUser = null,
+            ApplicationUserId = "dsadsadsadasdsadsadsadsadas"
+
+        };
+
         [BindProperty]
-        public string spaceshipIdprop { get; set; }
-        [BindProperty]
-        public int? IntSpaceID { get; set; }
-        [BindProperty]
-        public int? IntspaceUserID { get; set; }
+        public int? userIDString { get; set; } = 100;
         [BindProperty]
         public ApplicationUser applicationUser { get; set; }
 
         public IEnumerable<ParkingLotModel> ParkingSpot { get; set; }
+
         public IEnumerable<SpaceShipModel> spaceShipModels { get; set; }
         // search term was a function i wanted to implement, but it would probably be a future projekt. 
         [BindProperty(SupportsGet = true)]
@@ -50,7 +61,7 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             applicationUser = await userManager.GetUserAsync(HttpContext.User);
             //IntspaceUserID = applicationUser.SpaceShip.Select(e => e.SpaceShipID) == ite);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            userIDString = userId;
+            //userIDString = userId;
             AddSpaceShipTo(applicationUser);
 
             return Page();

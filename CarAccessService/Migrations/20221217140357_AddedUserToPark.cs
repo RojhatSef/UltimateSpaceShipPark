@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarAccessService.Migrations
 {
-    public partial class CarSpots : Migration
+    public partial class AddedUserToPark : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,9 +166,11 @@ namespace CarAccessService.Migrations
                     CurrentPrice = table.Column<double>(type: "float", nullable: true),
                     TotalCost = table.Column<double>(type: "float", nullable: true),
                     ParkingLotNumber = table.Column<int>(type: "int", nullable: true),
+                    parkingLotLevel = table.Column<int>(type: "int", nullable: true),
                     EnterTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ExitTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ExitTimeEarlierTimeWatcher = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    parkingSpotId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -190,11 +192,17 @@ namespace CarAccessService.Migrations
                     parkingLotLevel = table.Column<int>(type: "int", nullable: false),
                     parkingLotNumber = table.Column<int>(type: "int", nullable: false),
                     Zone = table.Column<int>(type: "int", nullable: false),
-                    SpaceShipID = table.Column<int>(type: "int", nullable: true)
+                    SpaceShipID = table.Column<int>(type: "int", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ParkingLotModels", x => x.SpaceParkingLotId);
+                    table.ForeignKey(
+                        name: "FK_ParkingLotModels_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ParkingLotModels_SpaceShipModels_SpaceShipID",
                         column: x => x.SpaceShipID,
@@ -242,9 +250,16 @@ namespace CarAccessService.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ParkingLotModels_ApplicationUserId",
+                table: "ParkingLotModels",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ParkingLotModels_SpaceShipID",
                 table: "ParkingLotModels",
-                column: "SpaceShipID");
+                column: "SpaceShipID",
+                unique: true,
+                filter: "[SpaceShipID] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpaceShipModels_ApplicationUserId",

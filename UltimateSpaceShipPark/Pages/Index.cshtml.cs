@@ -27,22 +27,25 @@ namespace UltimateSpaceShipPark.Pages
         [TempData]
         public int formresult2 { get; set; }
 
-        public async Task<IActionResult> OnGet(string id)
-        {
-            // gets current user
-            var groupUser = await userManager.GetUserAsync(User);
+        //public async Task<IActionResult> OnGet(string id)
+        //{
+        //    //// gets current user
+        //    //var groupUser = await userManager.GetUserAsync(User);
 
-            if (TempRegData != null)
-            {
-                // gets a spaceship mode, we add this spaceshipmodel to our applicationUser, One user can have many spaceships
-                var tempShip = context.SpaceShipModels.FirstOrDefault(o => o.RegisteringsNummer == TempRegData);
+        //    //if (TempRegData != null)
+        //    //{
+        //    //    // gets a spaceship mode, we add this spaceshipmodel to our applicationUser, One user can have many spaceships
+        //    //    var tempShip = context.SpaceShipModels.FirstOrDefault(o => o.RegisteringsNummer == TempRegData);
+        //    //    if (tempShip != null)
+        //    //    {
+        //    //        groupUser.SpaceShip = new List<SpaceShipModel> { tempShip };
+        //    //        context.Update(groupUser);
+        //    //        context.SaveChanges();
+        //    //    }
 
-                groupUser.SpaceShip = new List<SpaceShipModel> { tempShip };
-                context.Update(groupUser);
-                context.SaveChanges();
 
-            }
-            return Page();
-        }
+        //    //}
+        //    return Page();
+        //}
     }
 }

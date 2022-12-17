@@ -17,5 +17,8 @@ namespace CarModelService
         public int? SpaceShipID { get; set; }
         public SpaceShipModel? SpaceShip { get; set; }
 
+        public string? ApplicationUserId { get; set; }
+        public virtual ApplicationUser? ApplicationUser { get; set; }
+
     }
 }

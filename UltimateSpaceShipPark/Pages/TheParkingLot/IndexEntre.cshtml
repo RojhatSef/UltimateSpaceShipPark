@@ -4,7 +4,9 @@
 @model UltimateSpaceShipPark.Pages.TheParkingLot.IndexEntreModel
 @{
     var onlineUser = await userInManager.GetUserAsync(HttpContext.User);
-    var spaceShipModel = Model.spaceShipModels.FirstOrDefault(e => e.ApplicationUserId == onlineUser.Id); 
+    var spaceShipModel = Model.spaceShipModels.FirstOrDefault(e => e.ApplicationUserId == onlineUser.Id) ?? null;
+    Model.userIDString = 100; 
+
 
 }
 
@@ -24,35 +26,32 @@
 
 <h1>Space Parking Spots</h1>
 <!--To get our beautiful parking spots appearing next to each other we store the objects in another list, we then print our new list in three objects instead. Stackoverflow is a nice place-->
-@foreach (var row in Model.ParkingSpot
+@foreach (var row in Model.ParkingSpot 
    .Select((item, index) => new { item, index })
    .GroupBy(_ => _.index / 3, _ => _.item)
 )
 {
     <div class="row">
-        @foreach (var item in row)
+        @foreach (var item in row )
         {
            
-            if (item.SpaceShipID != null && spaceShipModel != null)
+            if (item.SpaceShipID != null && onlineUser.SpaceShip != null)
             {
+                Model.userIDString = spaceShipModel.SpaceShipID;
                 // we retrieve the the spaceship which is connected to our userID
-                var currentShip = spaceShipModel.SpaceShipID;
 
-              
+                foreach (var spaceship in onlineUser.SpaceShip){
+                    var onlineUserSpace = spaceship;
+                }
+                var group = onlineUser.SpaceShip.Where(g => g.SpaceShipID == item.SpaceShipID);
+               @* var applciationuser.spaceShipid == parkspot.Spaceshipid; *@
 
-                // we don't want to retrive users who does not have a spaceship parked
-
-                if (item.SpaceShipID == spaceShipModel.SpaceShipID)
-                    {
-
-            @*            var Newmodel = onlineUser.SpaceShip.FirstOrDefault(e => e.SpaceShipID == item.SpaceShipID);
-                        Model.spaceshipIdprop = null ?? Newmodel.ApplicationUserId;
-                        Model.IntSpaceID = Newmodel.SpaceShipID;
-                        Model.spaceshipIdprop = onlineUser.Id;      *@
-                }           
+           
+         
+                  
             }
             <div class="col">
-                    @if (item.SpaceShip.ApplicationUserId == null)
+                @if (item.SpaceShipID == null)
                 {
                        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
                         <div class="card-header">
@@ -66,11 +65,11 @@
                         </div>
                     </div>
                 }
-                    else
+               else
                     {
                         // This checkes if our user and spaceship which is parked belongs to correct user, we don't want anyone to be able to leave
                         // with any spaceship
-                    if (item.SpaceShip.ApplicationUserId == onlineUser.Id)
+                    if (item.ApplicationUserId == onlineUser.Id)
                         {
                         <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
                             <div class="card-header">
@@ -78,8 +77,6 @@
                                 <h2>parking Spot is occupied</h2>
                                 <h3>Parking Slot: @item.parkingLotNumber</h3>
                                 <h3>Parking Level: @item.parkingLotLevel</h3>
-                           @*     <h3>Parking Slot: @Model.parkingLotNumber</h3>
-                                <h3>Parking Level: @Model.parkingLotLevel</h3>*@
                             </div>
                             <div class="card-footer text-center">
                                 <a asp-page="LeavePark" asp-route-id="@item.SpaceShipID" style="ml-auto" class="btn btn-primary">Leave Park</a>
@@ -98,3 +95,7 @@
         }
     </div>
 }
+
+
+
+          

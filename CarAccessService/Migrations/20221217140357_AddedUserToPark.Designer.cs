@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAccessService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221207012220_CarSpots")]
-    partial class CarSpots
+    [Migration("20221217140357_AddedUserToPark")]
+    partial class AddedUserToPark
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,6 +103,9 @@ namespace CarAccessService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpaceParkingLotId"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("SpaceShipID")
                         .HasColumnType("int");
 
@@ -117,7 +120,11 @@ namespace CarAccessService.Migrations
 
                     b.HasKey("SpaceParkingLotId");
 
-                    b.HasIndex("SpaceShipID");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("SpaceShipID")
+                        .IsUnique()
+                        .HasFilter("[SpaceShipID] IS NOT NULL");
 
                     b.ToTable("ParkingLotModels");
                 });
@@ -154,6 +161,12 @@ namespace CarAccessService.Migrations
 
                     b.Property<double?>("TotalCost")
                         .HasColumnType("float");
+
+                    b.Property<int?>("parkingLotLevel")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("parkingSpotId")
+                        .HasColumnType("int");
 
                     b.HasKey("SpaceShipID");
 
@@ -297,9 +310,15 @@ namespace CarAccessService.Migrations
 
             modelBuilder.Entity("CarModelService.ParkingLotModel", b =>
                 {
-                    b.HasOne("CarModelService.SpaceShipModel", "SpaceShip")
+                    b.HasOne("CarModelService.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("SpaceShipID");
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("CarModelService.SpaceShipModel", "SpaceShip")
+                        .WithOne("ParkinglotModel")
+                        .HasForeignKey("CarModelService.ParkingLotModel", "SpaceShipID");
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("SpaceShip");
                 });
@@ -367,6 +386,11 @@ namespace CarAccessService.Migrations
             modelBuilder.Entity("CarModelService.ApplicationUser", b =>
                 {
                     b.Navigation("SpaceShip");
+                });
+
+            modelBuilder.Entity("CarModelService.SpaceShipModel", b =>
+                {
+                    b.Navigation("ParkinglotModel");
                 });
 #pragma warning restore 612, 618
         }

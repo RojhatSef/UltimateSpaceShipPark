@@ -99,6 +99,9 @@ namespace UltimateSpaceShipPark.Pages.TheParkingLot
             if (spaceShip != null)
             { //check for cascade delete on spaceship set null forigen key
                 ParkLot2.SpaceShipID = null;
+                ParkLot2.ApplicationUserId = null;
+                ParkLot2.ApplicationUser = null;
+
                 _context.ParkingLotModels.Update(ParkLot2);
                 _context.SpaceShipModels.Remove(spaceShip);
                 _context.SaveChanges();
